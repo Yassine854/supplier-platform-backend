@@ -2,11 +2,14 @@ var express = require("express");
 var app = express();
 var PORT = 4001;
 var http = require("http").Server(app);
-var cors = require("cors");
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(cors());
+
+
+//var cors = require("cors");
+//app.use(cors());
 
 // Load environment variables from .env file
 require('dotenv').config();

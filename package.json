@@ -7,7 +7,8 @@
         "lint": "eslint --fix src",
         "test": "jest",
         "docker:build:staging": " sudo docker build -t oms-express-staging .",
-        "docker:build:dev": "sudo docker build -t oms-express-dev ."
+        "docker:build:dev": "sudo docker build -t oms-express-dev .",
+        "docker:run:staging": "sudo docker run -p 4001:4001 oms-express-staging"
     },
     "keywords": [],
     "dependencies": {
