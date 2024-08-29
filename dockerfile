@@ -15,7 +15,7 @@ COPY src ./src
 COPY .env .env
 
 # Expose the port the app runs on
-EXPOSE 4001
+EXPOSE 4002
 
 # Command to run the app
 CMD ["node", "src/app.js"] 

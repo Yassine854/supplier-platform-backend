@@ -8,7 +8,7 @@
         "test": "jest",
         "docker:build:staging": " sudo docker build -t oms-express-staging .",
         "docker:build:dev": "sudo docker build -t oms-express-dev .",
-        "docker:run:staging": "sudo docker run -p 4001:4001 oms-express-staging"
+        "docker:run:staging": "sudo docker run -p 4002:4002 oms-express-staging"
     },
     "keywords": [],
     "dependencies": {
