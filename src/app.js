@@ -26,7 +26,7 @@ app.post("/api", function (req, res) {
         ? "0".concat(new Date().getMinutes().toString())
         : new Date().getMinutes());
 
-    io.emit("notification", { name: name, message: message, time: time, id: id });
+    io.emit("notification", { name: name, message: message, time: time, id: id, orderId: order.orderId, storeId: order.storeId });
     res.status(200).json({ name: name, message: message });
 });
 
