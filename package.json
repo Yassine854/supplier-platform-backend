@@ -1,32 +1,46 @@
 {
-    "name": "oms-express-server",
-    "version": "1.0.0",
-    "scripts": {
-        "start": "node src/app.js",
-        "dev": "nodemon src/app.js",
-        "lint": "eslint --fix src",
-        "test": "jest",
-        "docker:build:staging": " sudo docker build -t oms-express-staging .",
-        "docker:build:dev": "sudo docker build -t oms-express-dev .",
-        "docker:run:staging": "sudo docker run -p 4002:4002 oms-express-staging"
-    },
-    "keywords": [],
-    "dependencies": {
-        "axios": "^1.7.3",
-        "cors": "^2.8.5",
-        "dotenv": "^16.4.5",
-        "express": "^4.19.2",
-        "helmet": "^7.1.0",
-        "morgan": "^1.10.0",
-        "node-cron": "^3.0.3",
-        "socket.io": "^4.7.5"
-    },
-    "devDependencies": {
-        "eslint": "^8.57.0",
-        "eslint-config-airbnb-base": "^15.0.0",
-        "eslint-plugin-import": "^2.29.1",
-        "jest": "^29.7.0",
-        "nodemon": "^3.1.4",
-        "supertest": "^7.0.0"
-    }
+  "name": "kamioun-ads-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "nodemon",
+    "test": "APP_ENV=test jest --watch --verbose --detectOpenHandles"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@faker-js/faker": "^9.5.0",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
+    "express": "^5.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.7.0",
+    "multer": "^1.4.5-lts.1",
+    "pino": "^9.5.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/express": "^5.0.0",
+    "@types/jest": "^29.5.14",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/multer": "^1.4.12",
+    "@types/node": "^22.7.4",
+    "@types/pino": "^7.0.4",
+    "@types/supertest": "^6.0.2",
+    "@typescript-eslint/eslint-plugin": "^8.8.0",
+    "@typescript-eslint/parser": "^8.8.0",
+    "eslint": "^9.12.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "nodemon": "^3.1.7",
+    "prettier": "^3.3.3",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.2"
+  }
 }
