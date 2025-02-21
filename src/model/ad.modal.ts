@@ -13,6 +13,9 @@ const AdSchema: Schema = new Schema(
     status: { type: String, enum: adStatus, default: 'active' },
     startDate: { type: Date },
     endDate: { type: Date },
+    screen: { type: String },
+    position: { type: Number },
+    backgroundImage: { type: String },
   },
   {
     timestamps: true,

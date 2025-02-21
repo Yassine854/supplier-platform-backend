@@ -3,6 +3,7 @@ import AdModel from '../model/ad.modal';
 import { NotFoundError } from '../errors/not-found.error';
 import fs from 'fs';
 import path from 'path';
+import { InternalError } from '../errors/internal.error';
 export const createAd = async (req: Request, res: Response): Promise<void> => {
   try {
     const ad = await AdModel.create({
@@ -26,9 +27,7 @@ export const createAd = async (req: Request, res: Response): Promise<void> => {
 
     res.json(ad);
   } catch (error) {
-    res.status(500).json({
-      error: error instanceof Error ? error.message : 'Unknown error',
-    });
+    throw new InternalError();
   }
 };
 export const updateAd = async (req: Request, res: Response): Promise<void> => {
@@ -67,4 +66,43 @@ export const deleteAd = async (req: Request, res: Response) => {
   }
 
   res.json(ad);
+};
+export const getAdsByPage = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { screen } = req.query;
+    console.log('🚀 ~ page:', screen);
+
+    if (!screen) {
+      throw new NotFoundError('page not found!');
+    }
+
+    const ads = await AdModel.find({ screen });
+
+    res.json(ads);
+  } catch (error) {
+    throw new InternalError();
+  }
+};
+export const getAdImage = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  try {
+    const { id, filename } = req.params;
+    const adFolder = path.join(__dirname, '../../uploads', id);
+    if (!fs.existsSync(adFolder)) {
+      throw new NotFoundError('No images found');
+    }
+    const files = fs.readdirSync(adFolder);
+    if (files.length === 0) {
+      throw new NotFoundError('No images found');
+    }
+    const imagePath = path.join(adFolder, filename);
+    res.sendFile(imagePath);
+  } catch (error) {
+    throw new InternalError();
+  }
 };

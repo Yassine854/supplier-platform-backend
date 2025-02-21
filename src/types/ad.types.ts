@@ -1,8 +1,9 @@
 import { z } from 'zod';
 import { objectIdSchema } from './zod.types';
 export enum adType {
-  BANNER = 'banner',
-  VIDEO = 'video',
+  carousel = 'carousel',
+  ProductShowcase = 'ProductShowcase',
+  image = 'image',
 }
 export enum adStatus {
   ACTIVE = 'active',
@@ -21,11 +22,10 @@ export const adSchema = z.object({
   endDate: z.date(),
 });
 export type Ad = z.infer<typeof adSchema>;
-export const ProductSchema=z.object({
+export const ProductSchema = z.object({
   _id: objectIdSchema.optional(),
-
 });
-export type Product=z.infer<typeof ProductSchema>
+export type Product = z.infer<typeof ProductSchema>;
 
 export const createAdDto = adSchema
   .pick({
@@ -36,7 +36,8 @@ export const createAdDto = adSchema
     adType: true,
     startDate: true,
     endDate: true,
+    status: true,
   })
   .strict();
 
-export type CreateBranchDto = z.infer<typeof createAdDto>;
+export type CreateAdDto = z.infer<typeof createAdDto>;
