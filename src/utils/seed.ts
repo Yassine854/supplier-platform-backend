@@ -26,21 +26,8 @@ export async function seedProducts() {
         is_in_stock: faker.datatype.boolean(),
         qty_increments: faker.helpers.arrayElement([0.5, 1, 2, 5]),
       });
-      const ads = [];
-
-      for (let i = 0; i < 10; i++) {
-        ads.push({
-          title: faker.commerce.productName(),
-          description: faker.lorem.sentence(),
-          imageUrl: [faker.image.url(), faker.image.url()],
-          adType: faker.helpers.arrayElement(Object.values(adType)),
-          clickUrl: faker.internet.url(),
-          status: faker.helpers.arrayElement(Object.values(adStatus)),
-          startDate: faker.date.future(),
-          endDate: faker.date.future(),
-          product: new mongoose.Types.ObjectId(),
-        });
-      }
+     
+      
     }
 
     await Product.insertMany(products);

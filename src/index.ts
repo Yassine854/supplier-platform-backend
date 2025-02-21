@@ -5,7 +5,7 @@ import { seedProducts } from './utils/seed';
 
 const main = async () => {
   await mongoose.connect(getEnv('DB_URL'));
-  await seedProducts();
+  // await seedProducts();
   app.listen(getEnv('APP_PORT'), () => {
     console.log(`Server running on port ${getEnv('APP_PORT')}`);
   });
