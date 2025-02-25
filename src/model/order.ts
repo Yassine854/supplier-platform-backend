@@ -1,6 +1,5 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-// Define the interface for Order Items
 interface IOrderItem {
   item_id: number;
   order_id: number;
@@ -12,7 +11,6 @@ interface IOrderItem {
   amount_refunded: number;
 }
 
-// Define the interface for Orders
 export interface IOrder extends Document {
   entity_id: number;
   state: string;
@@ -26,7 +24,6 @@ export interface IOrder extends Document {
   items: IOrderItem[];
 }
 
-// Define Schema for Order Items
 const OrderItemSchema = new Schema<IOrderItem>({
   item_id: { type: Number, required: true },
   order_id: { type: Number, required: true },
@@ -38,7 +35,6 @@ const OrderItemSchema = new Schema<IOrderItem>({
   amount_refunded: { type: Number, required: true },
 });
 
-// Define Schema for Orders
 const OrderSchema = new Schema<IOrder>({
   entity_id: { type: Number, required: true, unique: true },
   state: { type: String, required: true },
@@ -52,5 +48,4 @@ const OrderSchema = new Schema<IOrder>({
   items: { type: [OrderItemSchema], required: true },
 },{ versionKey: false });
 
-// Export the Order model
 export default mongoose.model<IOrder>('Order', OrderSchema,'orders');

@@ -4,7 +4,7 @@ import Warehouse, { IWarehouse } from '../model/warehouse';
 const fetchAndStoreWarehouses = async (): Promise<void> => {
   try {
     const response = await axios.get(
-      'https://uat.kamioun.com/rest/default/V1/store/storeViews?fields=id,website_id,name',
+      'https://uat.kamioun.com/rest/default/V1/store/storeViews?fields=id,code,website_id,name',
       {
         headers: { Authorization: `Bearer pd2as4cqycmj671bga4egknw2csoa9b6` }
       }

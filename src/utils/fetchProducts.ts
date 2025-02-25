@@ -4,7 +4,7 @@ import Product, { IProduct } from '../model/product';
 const fetchAndStoreProducts = async (): Promise<void> => {
   try {
     const response = await axios.get(
-      'https://uat.kamioun.com/rest/default/V1/products?searchCriteria[currentPage]=1&searchCriteria[pageSize]=200&fields=items[id,name,price,sku,extension_attributes,created_at,updated_at,category_links,custom_attributes[attribute_code,value]]',
+      'https://uat.kamioun.com/rest/default/V1/products?searchCriteria[currentPage]=1&searchCriteria[pageSize]=8000&fields=items[id,name,price,sku,extension_attributes,created_at,updated_at,category_links,custom_attributes[attribute_code,value]]',
       {
         headers: { Authorization: `Bearer pd2as4cqycmj671bga4egknw2csoa9b6` },
       }
@@ -20,7 +20,7 @@ const fetchAndStoreProducts = async (): Promise<void> => {
       );
 
       return {
-        id: item.id,
+        product_id: item.id,
         sku: item.sku,
         name: item.name,
         price: item.price,
@@ -57,7 +57,7 @@ const fetchAndStoreProducts = async (): Promise<void> => {
     await Product.bulkWrite(
       products.map((product: IProduct) => ({
         updateOne: {
-          filter: { id: product.id },
+          filter: { product_id: product.product_id },
           update: { $set: product },
           upsert: true,
         },

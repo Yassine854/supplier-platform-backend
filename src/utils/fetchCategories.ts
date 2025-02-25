@@ -6,13 +6,17 @@ const fetchAndStoreCategories = async (): Promise<void> => {
     const response = await axios.get(
       'https://uat.kamioun.com/rest/default/V1/categories?fields=children_data[id,name]',
       {
-        headers: { Authorization: `Bearer pd2as4cqycmj671bga4egknw2csoa9b6` }
+        headers: { Authorization: `Bearer pd2as4cqycmj671bga4egknw2csoa9b6` },
       }
     );
 
-    const categories: ICategory[] = response.data.children_data;
+    // ✅ Map API response to match MongoDB schema
+    const categories: ICategory[] = response.data.children_data.map((category: any) => ({
+      categoryId: category.id,
+      nameCategory: category.name,
+    }));
 
-    if (!categories || categories.length === 0) {
+    if (categories.length === 0) {
       console.log('⚠️ No categories found.');
       return;
     }
@@ -21,10 +25,10 @@ const fetchAndStoreCategories = async (): Promise<void> => {
     await Category.bulkWrite(
       categories.map((category) => ({
         updateOne: {
-          filter: { id: category.id },
+          filter: { categoryId: category.categoryId }, // ✅ Corrected field name
           update: { $set: category },
-          upsert: true
-        }
+          upsert: true,
+        },
       }))
     );
 

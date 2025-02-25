@@ -4,6 +4,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 export interface IWarehouse extends Document {
   id: number;
   website_id: number;
+  code: string;
   name: string;
 }
 
@@ -11,6 +12,7 @@ export interface IWarehouse extends Document {
 const WarehouseSchema = new Schema<IWarehouse>({
   id: { type: Number, required: true, unique: true },
   website_id: { type: Number, required: true },
+  code: { type: String, required: true },
   name: { type: String, required: true },
 },{ versionKey: false });
 

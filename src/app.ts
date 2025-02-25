@@ -4,6 +4,8 @@ import adRoutes from './routes/ad.routes';
 //Supplier Dashboard
 import categoryRoutes from './routes/category.routes';
 import productRoutes from './routes/product.routes';
+import productStockRoutes from './routes/product_stock.routes';
+
 import orderRoutes from './routes/order.routes';
 import warehouseRoutes from './routes/warehouse.routes';
 import customerRoutes from './routes/customer.routes';
@@ -23,6 +25,7 @@ app.use('/api/ad', adRoutes);
 //Supplier Dashboard
 app.use('/api/categories', categoryRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/products_stock', productStockRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/warehouses', warehouseRoutes);
 app.use('/api/customers', customerRoutes);

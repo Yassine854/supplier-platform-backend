@@ -14,7 +14,7 @@ export interface IStockItem {
 }
 
 export interface IProduct extends Document {
-  id: number;
+  product_id: number;
   sku: string;
   name: string;
   price: number;
@@ -31,7 +31,7 @@ export interface IProduct extends Document {
 }
 
 const ProductSchema = new Schema<IProduct>({
-  id: { type: Number, unique: true, required: true },
+  product_id: { type: Number, unique: true, required: true },
   sku: { type: String, required: true },
   name: { type: String, required: true },
   price: { type: Number, required: true },

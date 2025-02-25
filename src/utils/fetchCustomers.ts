@@ -10,7 +10,7 @@ interface CustomAttribute {
 const fetchAndStoreCustomers = async (): Promise<void> => {
   try {
     const response = await axios.get(
-      'https://uat.kamioun.com/rest/default/V1/customers/search?searchCriteria[pageSize]=10&fields=items[id,created_at,updated_at,gender,store_id,website_id,addresses,custom_attributes]',
+      'https://uat.kamioun.com/rest/default/V1/customers/search?searchCriteria[pageSize]=8000&fields=items[id,created_at,updated_at,gender,store_id,website_id,addresses,custom_attributes]',
       {
         headers: { Authorization: `Bearer pd2as4cqycmj671bga4egknw2csoa9b6` }
       }
