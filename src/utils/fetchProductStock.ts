@@ -1,63 +1,82 @@
 import axios from 'axios';
 import ProductStock from '../model/product_stock';
 
+interface Warehouse {
+  id: number;
+  website_id: number;
+  code: string;
+}
+
+interface ProductResponse {
+  id: number;
+  sku: string;
+  price: number;
+  extension_attributes: {
+    website_ids: number[];
+    stock_item?: {
+      qty: number;
+    };
+  };
+}
+
 const fetchProductStock = async (): Promise<void> => {
   try {
-    // 1. Get all warehouses
-    const warehouses = await axios.get(
+    // 1. Fetch warehouses and create website_id mapping
+    const warehousesRes = await axios.get<Warehouse[]>(
       'https://uat.kamioun.com/rest/default/V1/store/storeViews',
-      {
-        headers: { Authorization: `Bearer pd2as4cqycmj671bga4egknw2csoa9b6` }
-      }
+      { headers: { Authorization: `Bearer pd2as4cqycmj671bga4egknw2csoa9b6` } }
     );
 
-    // 2. Fetch stock from each warehouse
-    const warehouseStock = await Promise.all(
-      warehouses.data.map(async (warehouse: any) => {
-        try {
-          const response = await axios.get(
-            `https://uat.kamioun.com/rest/${warehouse.code}/V1/products?fields=items[sku,extension_attributes[stock_item]]`,
-            {
-              headers: { Authorization: `Bearer pd2as4cqycmj671bga4egknw2csoa9b6` }
-            }
-          );
+    // Create mapping of website_id to warehouse details
+    const warehouseMap = new Map<number, { store_id: number; code: string }>();
+    warehousesRes.data.forEach(w => {
+      warehouseMap.set(w.website_id, { store_id: w.id, code: w.code });
+    });
 
-          return response.data.items.map((item: any) => ({
-            sku: item.sku,
-            warehouse: warehouse.code,
-            quantity: item.extension_attributes?.stock_item?.qty || 0
-          }));
-        } catch (error) {
-          console.error(`Failed to fetch ${warehouse.code} stock:`, error);
-          return [];
-        }
-      })
+    // 2. Fetch products with necessary fields
+    const productsRes = await axios.get<{ items: ProductResponse[] }>(
+      'https://uat.kamioun.com/rest/default/V1/products?' + 
+      'searchCriteria[currentPage]=1&' +
+      'searchCriteria[pageSize]=100&' +
+      'fields=items[id,sku,price,extension_attributes[website_ids,stock_item]]',
+      { headers: { Authorization: `Bearer pd2as4cqycmj671bga4egknw2csoa9b6` } }
     );
 
-    // 3. Group stock by SKU
-    const stockBySku = warehouseStock.flat().reduce((acc: any, item) => {
-      if (!acc[item.sku]) {
-        acc[item.sku] = [];
-      }
-      acc[item.sku].push({
-        warehouseCode: item.warehouse,
-        quantity: item.quantity
-      });
-      return acc;
-    }, {});
+    // 3. Process products and stock data
+    const stockData = productsRes.data.items.map(product => {
+      const websiteIds = product.extension_attributes.website_ids || [];
+      const baseQty = product.extension_attributes.stock_item?.qty || 0;
 
-    // 4. Save to database
-    const operations = Object.entries(stockBySku).map(([sku, stocks]) => ({
+      const stockEntries = websiteIds
+        .map(websiteId => {
+          const warehouse = warehouseMap.get(websiteId);
+          return warehouse ? {
+            store_id: warehouse.store_id,
+            quantity: baseQty,
+            price: product.price
+          } : null;
+        })
+        .filter(Boolean) as Array<{ store_id: number; quantity: number; price: number }>;
+
+      return {
+        product_id: product.id,
+        stock: stockEntries
+      };
+    });
+
+    // 4. Prepare database operations
+    const operations = stockData.map(data => ({
       updateOne: {
-        filter: { sku },
+        filter: { product_id: data.product_id },
         update: {
-          $set: { stocks },
-          $setOnInsert: { sku }
+          $set: { stock: data.stock },
+          $setOnInsert: { product_id: data.product_id }
         },
         upsert: true
       }
     }));
 
+    // 5. Execute bulk write
     await ProductStock.bulkWrite(operations);
     console.log(`✅ Updated stock for ${operations.length} products`);
 

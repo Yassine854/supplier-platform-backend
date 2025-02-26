@@ -1,39 +1,45 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
 interface IProductStock extends Document {
-  sku: string;
-  stocks: {
-    warehouseCode: string;
+  product_id: number;
+  stock: {
+    store_id: number;
     quantity: number;
+    price: number;
   }[];
 }
 
 const ProductStockSchema: Schema = new Schema({
-  sku: { 
-    type: String, 
+  product_id: { 
+    type: Number, 
     required: true, 
     unique: true 
   },
-  stocks: [{
-    warehouseCode: { 
-      type: String, 
+  stock: [{
+    store_id: { 
+      type: Number, 
       required: true 
     },
     quantity: { 
       type: Number, 
       required: true,
       default: 0 
+    },
+    price: { 
+      type: Number, 
+      required: true 
     }
   }]
 }, { 
-  timestamps: true 
+  timestamps: true,
+  versionKey: false
 });
 
-// Indexes for fast lookups
-ProductStockSchema.index({ sku: 1 });
+// Indexes for optimized queries
+ProductStockSchema.index({ product_id: 1 });
 ProductStockSchema.index({ 
-  sku: 1,
-  'stocks.warehouseCode': 1 
+  product_id: 1,
+  'stock.store_id': 1 
 });
 
 export default mongoose.model<IProductStock>(
