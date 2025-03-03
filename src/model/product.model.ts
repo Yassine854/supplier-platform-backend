@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from 'mongoose';
-import { Product, adStatus, adType } from '../types/ad.types';
+import { Product, } from '../types/ad.types';
 type IProduct = Product & Document;
 const ProductSchema: Schema = new Schema(
   {
