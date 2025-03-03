@@ -13,8 +13,6 @@ const AdSchema: Schema = new Schema(
     status: { type: String, enum: adStatus, default: 'draft' },
     startDate: { type: Date },
     endDate: { type: Date },
-    screen: { type: String },
-    position: { type: Number },
     backgroundImage: { type: String },
     product: [{ type: Schema.Types.ObjectId, ref: 'Product' }],
   },
