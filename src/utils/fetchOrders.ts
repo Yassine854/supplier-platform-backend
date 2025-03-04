@@ -4,7 +4,7 @@ import Order, { IOrder } from '../model/order';
 const fetchAndStoreOrders = async (): Promise<void> => {
   try {
     const response = await axios.get(
-      'https://uat.kamioun.com/rest/default/V1/orders?searchCriteria[currentPage]=1&searchCriteria[pageSize]=800&fields=items[entity_id,state,status,base_grand_total,created_at,updated_at,customer_id,discount_amount,store_id,items[item_id,order_id,product_id,name,qty_invoiced,row_total_incl_tax,qty_refunded,amount_refunded]]',
+      'https://uat.kamioun.com/rest/default/V1/orders?searchCriteria[currentPage]=1&searchCriteria[pageSize]=890&fields=items[entity_id,state,status,base_grand_total,created_at,updated_at,customer_id,discount_amount,store_id,items[item_id,order_id,product_id,name,qty_invoiced,row_total_incl_tax,qty_refunded,amount_refunded]]',
       {
         headers: { Authorization: `Bearer pd2as4cqycmj671bga4egknw2csoa9b6` }
       }
