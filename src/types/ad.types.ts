@@ -8,6 +8,12 @@ export enum adType {
 export enum adStatus {
   ACTIVE = 'active',
   INACTIVE = 'inactive',
+  DAFT = 'draft',
+}
+export enum ScreenStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+  DAFT = 'draft',
 }
 
 export const adSchema = z.object({
@@ -15,6 +21,7 @@ export const adSchema = z.object({
   title: z.string(),
   description: z.string(),
   imageUrl: z.array(z.string()),
+  backgroundImage: z.string(),
   clickUrl: z.string(),
   adType: z.nativeEnum(adType),
   status: z.nativeEnum(adStatus),
@@ -41,3 +48,9 @@ export const createAdDto = adSchema
   .strict();
 
 export type CreateAdDto = z.infer<typeof createAdDto>;
+export const ScreenSchema = z.object({
+  _id: objectIdSchema.optional(),
+  title: z.string(),
+  description: z.string(),
+});
+export type Screen = z.infer<typeof ScreenSchema>;
