@@ -11,10 +11,22 @@ import customerRoutes from './routes/customer.routes';
 import supplierRoutes from './routes/supplier.routes';
 import cors from 'cors';
 
+import authRoutes from './routes/auth.routes';
+
 const app = express();
+
+
+
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// Middleware
 app.use(cors());
+
+// Auth
+app.use('/api/auth', authRoutes);
+
 app.get('/test', (_, res) => {
   res.json({ test: true });
 });
@@ -29,5 +41,6 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/warehouses', warehouseRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api/suppliers', supplierRoutes);
+
 
 export { app };
