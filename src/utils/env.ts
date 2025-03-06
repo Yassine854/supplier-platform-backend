@@ -12,6 +12,8 @@ const envSchema = z.object({
   DB_URL: z.string().url(),
   TEST_DB_URL: z.string().url().default('mongodb://localhost:27017'),
   JWT_SECRET: z.string(),
+  API_KEY_1: z.string(),
+  API_KEY_2: z.string(),
 });
 
 const envVars = envSchema.safeParse(process.env);

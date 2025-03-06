@@ -30,7 +30,6 @@ export const getAllScreens = async (
   res: Response
 ): Promise<void> => {
   const screens = await screenModel.find({}).populate('ad');
-  console.log('🚀 ~ screens:', screens);
   res.json(screens);
 };
 export const getScreens = async (
