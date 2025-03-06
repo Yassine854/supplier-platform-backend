@@ -10,27 +10,34 @@ import {
   getImage,
 } from '../handlers/ad.handlers';
 import { upload } from '../utils/multerConfig';
+import { authenticateApiKey } from '../middlewares/apiKeyMiddleware';
 
 const router = Router();
 
 router.post(
   '/',
-  [/* validationMiddleware(createAdDto), */ upload.array('images', 5)],
+  [
+    /* validationMiddleware(createAdDto), */ authenticateApiKey,
+    upload.array('images', 5),
+  ],
   createAd
 );
 router.put(
   '/:id',
-  upload.fields([
-    { name: 'images', maxCount: 5 },
-    { name: 'backgroundImage', maxCount: 1 },
-  ]),
+  [
+    authenticateApiKey,
+    upload.fields([
+      { name: 'images', maxCount: 5 },
+      { name: 'backgroundImage', maxCount: 1 },
+    ]),
+  ],
   updateAd
 );
-router.get('/', getAds);
-router.get('/screen', getAdsByPage);
-router.delete('/:id', deleteAd);
-router.get('/:id/images/:filename', getAdImage);
-router.get('/:id', getAd);
+router.get('/', authenticateApiKey, getAds);
+router.get('/screen', authenticateApiKey, getAdsByPage);
+router.delete('/:id', authenticateApiKey, deleteAd);
+router.get('/:id/images/:filename', authenticateApiKey, getAdImage);
+router.get('/:id', authenticateApiKey, getAd);
 /* router.get('/uploads/:filePath(*)', getImageByFullPath); */
-router.get('/uploads/:folder/:filename', getImage);
+router.get('/uploads/:folder/:filename', authenticateApiKey, getImage);
 export default router;

@@ -1,4 +1,3 @@
-import { Product } from './../types/ad.types';
 import mongoose, { Document, Schema } from 'mongoose';
 import { Ad, adStatus, adType } from '../types/ad.types';
 type IAd = Ad & Document;
