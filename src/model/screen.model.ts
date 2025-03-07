@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from 'mongoose';
-import { Screen, ScreenStatus } from '../types/ad.types';
+import { Screen, ScreenStatus } from '../types/screen.types';
 import './ad.model';
 type IScreen = Screen & Document;
 

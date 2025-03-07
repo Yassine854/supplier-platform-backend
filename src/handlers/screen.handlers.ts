@@ -2,7 +2,8 @@ import { Request, Response } from 'express';
 import screenModel from '../model/screen.model';
 import { NotFoundError } from '../errors/not-found.error';
 import { InternalError } from '../errors/internal.error';
-import { ScreenStatus } from '../types/ad.types';
+import { ScreenStatus } from '../types/screen.types';
+import { AuthenticatedRequest } from '../middlewares/apiKeyMiddleware';
 export const createScreen = async (
   req: Request,
   res: Response
@@ -25,11 +26,10 @@ export const deleteScreen = async (
   res.json(deletedScreen);
 };
 export const getAllScreens = async (
-  req: Request,
+  req: AuthenticatedRequest,
   res: Response
 ): Promise<void> => {
   const screens = await screenModel.find({}).populate('ad');
-  console.log('🚀 ~ screens:', screens);
   res.json(screens);
 };
 export const getScreens = async (

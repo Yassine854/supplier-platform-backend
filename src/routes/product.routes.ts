@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { getProduct,searchProducts } from '../handlers/product.handlers';
+import { getProduct, searchProducts } from '../handlers/product.handlers';
+import { authenticateApiKey } from '../middlewares/apiKeyMiddleware';
 
 const router = Router();
-// Flag to avoid unnecessary fetching
 
-router.get('/', getProduct);
-router.get('/search', searchProducts);
+router.get('/', authenticateApiKey, getProduct);
+router.get('/search', authenticateApiKey, searchProducts);
 export default router;

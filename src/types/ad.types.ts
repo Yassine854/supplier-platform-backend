@@ -10,11 +10,7 @@ export enum adStatus {
   INACTIVE = 'inactive',
   DAFT = 'draft',
 }
-export enum ScreenStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  DAFT = 'draft',
-}
+
 
 export const adSchema = z.object({
   _id: objectIdSchema.optional(),
@@ -29,10 +25,7 @@ export const adSchema = z.object({
   endDate: z.date(),
 });
 export type Ad = z.infer<typeof adSchema>;
-export const ProductSchema = z.object({
-  _id: objectIdSchema.optional(),
-});
-export type Product = z.infer<typeof ProductSchema>;
+
 
 export const createAdDto = adSchema
   .pick({
@@ -48,9 +41,4 @@ export const createAdDto = adSchema
   .strict();
 
 export type CreateAdDto = z.infer<typeof createAdDto>;
-export const ScreenSchema = z.object({
-  _id: objectIdSchema.optional(),
-  title: z.string(),
-  description: z.string(),
-});
-export type Screen = z.infer<typeof ScreenSchema>;
+

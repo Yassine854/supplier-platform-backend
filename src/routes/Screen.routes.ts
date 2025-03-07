@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { authenticateApiKey } from '../middlewares/apiKeyMiddleware';
 import {
   updateScreen,
   getScreen,
@@ -11,13 +12,13 @@ import {
   getScreenByTitle,
 } from '../handlers/screen.handlers';
 const router = Router();
-router.put('/:id', updateScreen);
-router.get('/all', getAllScreens);
-router.delete('/:id', deleteScreen);
-router.get('/:id', getScreen);
-router.post('/', createScreen);
-router.get('/', getScreens);
-router.put('/:screenId/activate', activateScreen);
-router.put('/:screenId/deactivate', deactivateScreen);
-router.get('/screens/:title',getScreenByTitle);
+router.put('/:id', authenticateApiKey, updateScreen);
+router.get('/all', authenticateApiKey, getAllScreens);
+router.delete('/:id', authenticateApiKey, deleteScreen);
+router.get('/:id', authenticateApiKey, getScreen);
+router.post('/', authenticateApiKey, createScreen);
+router.get('/', authenticateApiKey, getScreens);
+router.put('/:screenId/activate', authenticateApiKey, activateScreen);
+router.put('/:screenId/deactivate', authenticateApiKey, deactivateScreen);
+router.get('/screens/:title', authenticateApiKey, getScreenByTitle);
 export default router;
