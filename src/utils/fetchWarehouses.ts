@@ -1,18 +1,34 @@
 import axios from 'axios';
+import dotenv from 'dotenv';
 import Warehouse, { IWarehouse } from '../model/warehouse';
+
+dotenv.config();
 
 const fetchAndStoreWarehouses = async (): Promise<void> => {
   try {
     const response = await axios.get(
       'https://uat.kamioun.com/rest/default/V1/store/storeViews?fields=id,code,website_id,name',
       {
-        headers: { Authorization: `Bearer pd2as4cqycmj671bga4egknw2csoa9b6` }
+        headers: { Authorization: `Bearer ${process.env.API_TOKEN}` },
       }
     );
 
-    const warehouses: IWarehouse[] = response.data;
+    if (!Array.isArray(response.data)) {
+      console.error('❌ Unexpected API response format:', response.data);
+      return;
+    }
 
-    if (!warehouses || warehouses.length === 0) {
+    const warehouses = response.data.map((w: any) =>
+      new Warehouse({
+        warehouseId: w.id,
+        websiteId: w.website_id,
+        code: w.code,
+        name: w.name,
+      })
+    );
+    
+
+    if (warehouses.length === 0) {
       console.log('⚠️ No warehouses found.');
       return;
     }
@@ -21,16 +37,16 @@ const fetchAndStoreWarehouses = async (): Promise<void> => {
     await Warehouse.bulkWrite(
       warehouses.map((warehouse) => ({
         updateOne: {
-          filter: { id: warehouse.id },
+          filter: { warehouseId: warehouse.warehouseId },
           update: { $set: warehouse },
-          upsert: true
-        }
+          upsert: true,
+        },
       }))
     );
 
     console.log('✅ Warehouses stored successfully.');
-  } catch (error) {
-    console.error('❌ Error fetching/storing warehouses:', error);
+  } catch (error: any) {
+    console.error('❌ Error fetching/storing warehouses:', error.message || error);
   }
 };
 

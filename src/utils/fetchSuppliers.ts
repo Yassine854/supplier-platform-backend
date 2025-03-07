@@ -21,7 +21,7 @@ const fetchAndStoreSuppliers = async (): Promise<void> => {
     await Supplier.bulkWrite(
       suppliers.map((supplier) => ({
         updateOne: {
-          filter: { manufacturer_id: supplier.manufacturer_id },
+          filter: { manufacturerId: supplier.manufacturerId },
           update: { $set: supplier },
           upsert: true
         }

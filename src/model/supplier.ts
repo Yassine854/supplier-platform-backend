@@ -2,7 +2,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 // Define the Supplier interface
 export interface ISupplier extends Document {
-  manufacturer_id: number;
+  manufacturerId: number;
   code: string;
   company_name: string;
   contact_name?: string;
@@ -18,7 +18,7 @@ export interface ISupplier extends Document {
 
 // Define Schema for Supplier
 const SupplierSchema = new Schema<ISupplier>({
-  manufacturer_id: { type: Number, required: true, unique: true },
+  manufacturerId: { type: Number, required: true, unique: true },
   code: { type: String, required: true },
   company_name: { type: String, required: true },
   contact_name: { type: String },

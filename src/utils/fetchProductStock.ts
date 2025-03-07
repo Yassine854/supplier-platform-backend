@@ -2,8 +2,8 @@ import axios from 'axios';
 import ProductStock from '../model/product_stock';
 
 interface Warehouse {
-  id: number;
-  website_id: number;
+  warehouseId: number;
+  websiteId: number;
   code: string;
 }
 
@@ -30,7 +30,7 @@ const fetchProductStock = async (): Promise<void> => {
     // Create mapping of website_id to warehouse details
     const warehouseMap = new Map<number, { store_id: number; code: string }>();
     warehousesRes.data.forEach(w => {
-      warehouseMap.set(w.website_id, { store_id: w.id, code: w.code });
+      warehouseMap.set(w.websiteId, { store_id: w.warehouseId, code: w.code });
     });
 
     // 2. Fetch products with necessary fields

@@ -1,19 +1,16 @@
 import express, { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 import Manufacturer from '../model/supplier';
 
+dotenv.config();
 const router = express.Router();
 
-// Helper to sanitize regex input
 const escapeRegex = (text: string) => {
   return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 };
 
-// Unified Login Route with case-insensitive company name
-router.post('/login', async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+router.post('/login', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { username, password } = req.body;
 
@@ -24,16 +21,25 @@ router.post('/login', async (
       });
     }
 
-    // Super Admin check (case-sensitive)
+    // Super Admin login
     if (username === 'admin' && password === 'admin') {
-      return res.json({ 
-        success: true, 
-        role: 'superadmin',
-        user: { username: 'admin' }
+      const token = jwt.sign(
+        { userId: 'admin', role: 'superadmin' },
+        process.env.JWT_SECRET!,
+        { expiresIn: '1h' }
+      );
+
+      return res.json({
+        success: true,
+        token,
+        user: {
+          role: 'superadmin',
+          username: 'admin'
+        }
       });
     }
 
-    // Case-insensitive company name search with exact match
+    // Supplier login
     const supplier = await Manufacturer.findOne({
       company_name: { 
         $regex: new RegExp(`^${escapeRegex(username)}$`, 'i') 
@@ -42,16 +48,28 @@ router.post('/login', async (
     });
 
     if (supplier) {
+      const token = jwt.sign(
+        { 
+          userId: supplier.manufacturerId,
+          role: 'supplier',
+          company: supplier.company_name
+        },
+        process.env.JWT_SECRET!,
+        { expiresIn: '1h' }
+      );
+
       return res.json({
         success: true,
-        role: 'supplier',
+        token,
         user: {
-          manufacturer_id: supplier.manufacturer_id,
+          role: 'supplier',
+          manufacturerId: supplier.manufacturerId,
           company_name: supplier.company_name,
-          email: supplier.email,
           contact_name: supplier.contact_name,
-          phone_number: supplier.phone_number,
+          country: supplier.country,
           city: supplier.city,
+          email: supplier.email,
+          phone_number: supplier.phone_number,
           postal_code: supplier.postal_code
         }
       });
@@ -59,7 +77,7 @@ router.post('/login', async (
 
     res.status(401).json({
       success: false,
-      message: "Informations d'identification non valides"
+      message: "Invalid credentials"
     });
 
   } catch (error) {
