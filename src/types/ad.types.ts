@@ -8,13 +8,16 @@ export enum adType {
 export enum adStatus {
   ACTIVE = 'active',
   INACTIVE = 'inactive',
+  DAFT = 'draft',
 }
+
 
 export const adSchema = z.object({
   _id: objectIdSchema.optional(),
   title: z.string(),
   description: z.string(),
   imageUrl: z.array(z.string()),
+  backgroundImage: z.string(),
   clickUrl: z.string(),
   adType: z.nativeEnum(adType),
   status: z.nativeEnum(adStatus),
@@ -22,10 +25,7 @@ export const adSchema = z.object({
   endDate: z.date(),
 });
 export type Ad = z.infer<typeof adSchema>;
-export const ProductSchema = z.object({
-  _id: objectIdSchema.optional(),
-});
-export type Product = z.infer<typeof ProductSchema>;
+
 
 export const createAdDto = adSchema
   .pick({
@@ -41,3 +41,4 @@ export const createAdDto = adSchema
   .strict();
 
 export type CreateAdDto = z.infer<typeof createAdDto>;
+
