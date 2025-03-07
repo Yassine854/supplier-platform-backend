@@ -37,7 +37,7 @@ const fetchProductStock = async (): Promise<void> => {
     const productsRes = await axios.get<{ items: ProductResponse[] }>(
       'https://uat.kamioun.com/rest/default/V1/products?' + 
       'searchCriteria[currentPage]=1&' +
-      'searchCriteria[pageSize]=8000&' +
+      'searchCriteria[pageSize]=100&' +
       'fields=items[id,sku,price,extension_attributes[website_ids,stock_item]]',
       { headers: { Authorization: `Bearer pd2as4cqycmj671bga4egknw2csoa9b6` } }
     );
@@ -60,7 +60,6 @@ const fetchProductStock = async (): Promise<void> => {
 
       return {
         product_id: product.id,
-        sku: product.sku,
         stock: stockEntries
       };
     });
@@ -70,7 +69,7 @@ const fetchProductStock = async (): Promise<void> => {
       updateOne: {
         filter: { product_id: data.product_id },
         update: {
-          $set: {  sku: data.sku, stock: data.stock },
+          $set: { stock: data.stock },
           $setOnInsert: { product_id: data.product_id }
         },
         upsert: true

@@ -2,7 +2,6 @@ import mongoose, { Document, Schema } from 'mongoose';
 
 interface IProductStock extends Document {
   product_id: number;
-  sku: String;
   stock: {
     store_id: number;
     quantity: number;
@@ -13,11 +12,6 @@ interface IProductStock extends Document {
 const ProductStockSchema: Schema = new Schema({
   product_id: { 
     type: Number, 
-    required: true, 
-    unique: true 
-  },
-  sku: { 
-    type: String, 
     required: true, 
     unique: true 
   },
