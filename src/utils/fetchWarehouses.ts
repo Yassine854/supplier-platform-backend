@@ -1,6 +1,6 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
-import Warehouse, { IWarehouse } from '../model/warehouse';
+import Warehouse from '../model/warehouse.model';
 
 dotenv.config();
 
@@ -26,14 +26,12 @@ const fetchAndStoreWarehouses = async (): Promise<void> => {
         name: w.name,
       })
     );
-    
 
     if (warehouses.length === 0) {
       console.log('⚠️ No warehouses found.');
       return;
     }
 
-    // ✅ Insert/update warehouses efficiently
     await Warehouse.bulkWrite(
       warehouses.map((warehouse) => ({
         updateOne: {

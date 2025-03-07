@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Order, { IOrder } from '../model/order';
+import Order, { IOrder } from '../model/order.model';
 
 const fetchAndStoreOrders = async (): Promise<void> => {
   try {

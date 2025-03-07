@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose';
 
 // Define the Supplier interface
 export interface ISupplier extends Document {
@@ -30,7 +30,7 @@ const SupplierSchema = new Schema<ISupplier>({
   email: { type: String, required: true },
   tax_registration_number: { type: String },
   address: { type: String },
-},{ versionKey: false });
+}, { versionKey: false });
 
 // Export the Supplier model
-export default mongoose.model<ISupplier>('Supplier', SupplierSchema,'manufacturers');
+export default mongoose.model<ISupplier>('Supplier', SupplierSchema, 'manufacturers');

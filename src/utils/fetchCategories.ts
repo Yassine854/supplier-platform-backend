@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Category, { ICategory } from '../model/category';
+import Category, { ICategory } from '../model/category.model';
 
 const fetchAndStoreCategories = async (): Promise<void> => {
   try {

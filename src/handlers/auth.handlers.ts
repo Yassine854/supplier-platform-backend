@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import Supplier from '../model/supplier';
+import Supplier from '../model/supplier.model';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your_strong_secret_here';
 const JWT_EXPIRES_IN = '1d';

@@ -46,6 +46,6 @@ const OrderSchema = new Schema<IOrder>({
   discount_amount: { type: Number, required: true },
   store_id: { type: Number, required: true },
   items: { type: [OrderItemSchema], required: true },
-},{ versionKey: false });
+}, { versionKey: false });
 
-export default mongoose.model<IOrder>('Order', OrderSchema,'orders');
+export default mongoose.model<IOrder>('Order', OrderSchema, 'orders');

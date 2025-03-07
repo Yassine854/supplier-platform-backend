@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Customer, { ICustomer } from '../model/customer';
+import Customer, { ICustomer } from '../model/customer.model';
 
 // Define the type for custom attributes
 interface CustomAttribute {

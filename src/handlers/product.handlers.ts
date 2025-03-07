@@ -18,6 +18,25 @@ export const getProduct = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Error fetching products', error });
   }
 };
+
+//For Suppliers
+export const getSupplierProducts = async (req: Request, res: Response) => {
+  try {
+    const count = await productModel.countDocuments();
+    
+    if (count === 0) {
+      console.log('⚠️ No products in DB. Fetching from API...');
+      await fetchAndStoreProducts();
+    }
+
+    const storedProducts = await productModel.find();
+    res.json(storedProducts);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching products', error });
+  }
+};
+
+
 export const searchProducts = async (req: Request, res: Response) => {
   const { query } = req.query;
 

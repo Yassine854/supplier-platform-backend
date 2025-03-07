@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import Supplier, { ISupplier } from '../model/supplier';
+import Supplier, { ISupplier } from '../model/supplier.model';
 
 const fetchAndStoreSuppliers = async (): Promise<void> => {
   try {

@@ -8,10 +8,10 @@ export interface ICustomer extends Document {
   gender: number;
   store_id: number;
   website_id: number;
-  addresses: Record<string, any>[]; // Flexible structure
-  zone: string; // New property for zone
-  retailer_profile: string; // New property for retailer profile
-  governorate: string; // New property for governorate
+  addresses: Record<string, any>[]; 
+  zone: string; 
+  retailer_profile: string;
+  governorate: string; 
 }
 
 // Define Schema for Customer
@@ -23,10 +23,10 @@ const CustomerSchema = new Schema<ICustomer>({
   store_id: { type: Number, required: true },
   website_id: { type: Number, required: true },
   addresses: { type: [{ type: Schema.Types.Mixed }], default: [] },
-  zone: { type: String, default: '' }, // Add zone to schema
-  retailer_profile: { type: String, default: '' }, // Add retailer profile to schema
-  governorate: { type: String, default: '' } // Add governorate to schema
-},{ versionKey: false });
+  zone: { type: String, default: '' }, 
+  retailer_profile: { type: String, default: '' }, 
+  governorate: { type: String, default: '' } 
+}, { versionKey: false });
 
 // Export the Customer model
-export default mongoose.model<ICustomer>('Customer', CustomerSchema,'customers');
+export default mongoose.model<ICustomer>('Customer', CustomerSchema, 'customers');

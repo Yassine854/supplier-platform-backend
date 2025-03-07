@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import Manufacturer from '../model/supplier';
+import Manufacturer from '../model/supplier.model';
 
 dotenv.config();
 const router = express.Router();

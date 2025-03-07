@@ -1,25 +1,10 @@
 import { Router } from 'express';
-import fetchAndStoreProducts from '../utils/fetchProductStock';
-import ProductStock from '../model/product_stock';
+import { authMiddleware } from '../middlewares/auth.middlewares';
+import { getAllProductStocks, getProductStock } from '../handlers/product_stock.handlers';
 
 const router = Router();
-let isFetched = false; // Flag to avoid unnecessary fetching
 
-router.get('/', async (req, res) => {
-  try {
-    const products = await ProductStock.find();
-
-    if (products.length === 0 && !isFetched) {
-      console.log('⚠️ No products in DB. Fetching from API...');
-      await fetchAndStoreProducts();
-      isFetched = true;
-    }
-
-    const storedProducts = await ProductStock.find(); // Get stored data
-    res.json(storedProducts);
-  } catch (error) {
-    res.status(500).json({ message: 'Error fetching products', error });
-  }
-});
+router.get('/', authMiddleware, getAllProductStocks);
+router.get('/:id', authMiddleware, getProductStock);
 
 export default router;
