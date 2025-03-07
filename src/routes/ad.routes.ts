@@ -39,5 +39,5 @@ router.delete('/:id', authenticateApiKey, deleteAd);
 router.get('/:id/images/:filename', authenticateApiKey, getAdImage);
 router.get('/:id', authenticateApiKey, getAd);
 /* router.get('/uploads/:filePath(*)', getImageByFullPath); */
-router.get('/uploads/:folder/:filename', authenticateApiKey, getImage);
+router.get('/uploads/:folder/:filename', getImage);
 export default router;
