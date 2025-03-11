@@ -4,6 +4,8 @@ import ScreenRoutes from './routes/Screen.routes';
 //Supplier Dashboard
 import categoryRoutes from './routes/category.routes';
 import productRoutes from './routes/product.routes';
+import supplier_products from './routes/supplier_product.routes';
+
 import productStockRoutes from './routes/product_stock.routes';
 
 import orderRoutes from './routes/order.routes';
@@ -35,7 +37,7 @@ app.use('/api/products', productRoutes);
 const protectedRoutes = [
   { path: '/api/warehouses', route: warehouseRoutes },
   { path: '/api/categories', route: categoryRoutes },
-  { path: '/api/products', route: productRoutes },
+  { path: '/api/supplier_products', route: supplier_products },
   { path: '/api/products_stock', route: productStockRoutes },
   { path: '/api/orders', route: orderRoutes },
   { path: '/api/customers', route: customerRoutes },
