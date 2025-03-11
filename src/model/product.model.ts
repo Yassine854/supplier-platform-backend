@@ -1,9 +1,34 @@
-import mongoose, { Document, Schema } from 'mongoose';
-import { Product } from '../types/product.types';
-type IProduct = Product & Document;
-const ProductSchema: Schema = new Schema(
+import mongoose, { Schema, Document } from 'mongoose';
+
+export interface IProduct extends Document {
+  product_id: number;
+  sku: string;
+  name: string;
+  price: number;
+  cost?: number;
+  special_price?: number;
+  image?: string;
+  url_key?: string;
+  manufacturer?: string;
+  website_ids: number[];
+  category_ids: string[];
+  stock_item: {
+    item_id?: number;
+    product_id?: number;
+    stock_id?: number;
+    qty?: number;
+    is_in_stock?: boolean;
+    min_qty?: number;
+    min_sale_qty?: number;
+    max_sale_qty?: number;
+    backorders?: number;
+    low_stock_date?: string;
+  };
+}
+
+const ProductSchema = new Schema<IProduct>(
   {
-    id: { type: Number, unique: true, required: true },
+    product_id: { type: Number, unique: true, required: true },
     sku: { type: String, required: true },
     name: { type: String, required: true },
     price: { type: Number, required: true },
@@ -27,8 +52,7 @@ const ProductSchema: Schema = new Schema(
       low_stock_date: { type: String },
     },
   },
-  {
-    timestamps: true,
-  }
+  { versionKey: false, timestamps: true }
 );
+
 export default mongoose.model<IProduct>('Product', ProductSchema);
