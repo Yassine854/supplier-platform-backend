@@ -35,7 +35,6 @@ app.use('/api/products', productRoutes);
 const protectedRoutes = [
   { path: '/api/warehouses', route: warehouseRoutes },
   { path: '/api/categories', route: categoryRoutes },
-  { path: '/api/products', route: productRoutes },
   { path: '/api/products_stock', route: productStockRoutes },
   { path: '/api/orders', route: orderRoutes },
   { path: '/api/customers', route: customerRoutes },
