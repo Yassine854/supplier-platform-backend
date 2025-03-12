@@ -22,7 +22,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  credentials: true
+}));
+
 
 // Auth
 app.use('/api/auth', authRoutes);
