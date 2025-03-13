@@ -10,7 +10,10 @@ const envSchema = z.object({
     .default('3000')
     .transform((value) => parseInt(value, 10)),
   DB_URL: z.string().url(),
-  TEST_DB_URL: z.string().url().default('mongodb://localhost:27017'),
+  TEST_DB_URL: z
+    .string()
+    .url()
+    .default('mongodb://root:example@mongo:27017/mydatabase'),
   JWT_SECRET: z.string(),
   API_KEY_1: z.string(),
   API_KEY_2: z.string(),

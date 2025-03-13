@@ -26,5 +26,18 @@ services:
     depends_on:
       - mongo
 
+  express-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: express-app
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      MONGO_URI: mongodb://root:example@mongo:27017/mydatabase
+    depends_on:
+      - mongo
+
 volumes:
   mongodb_data:

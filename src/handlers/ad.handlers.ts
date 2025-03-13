@@ -42,7 +42,7 @@ export const createAd = async (req: Request, res: Response): Promise<void> => {
 export const updateAd = async (req: Request, res: Response): Promise<void> => {
   try {
     const { id } = req.params;
-    console.log('gggg', req.body.products);
+    console.log('gggg', req.body);
     const ad = await AdModel.findById(id);
     if (!ad) {
       throw new NotFoundError('Ad not found!');
@@ -87,7 +87,7 @@ export const updateAd = async (req: Request, res: Response): Promise<void> => {
 
     res.json(ad);
   } catch (error) {
-    console.error('Error in updateAd:', error); 
+    console.error('Error in updateAd:', error);
     throw new InternalError();
   }
 };
