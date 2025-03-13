@@ -39,6 +39,45 @@ router.post('/login', async (req: Request, res: Response, next: NextFunction) =>
       });
     }
 
+
+    // Intern login
+    if (username === 'intern' && password === 'intern') {
+      const token = jwt.sign(
+        { userId: 'intern', role: 'intern' },
+        process.env.JWT_SECRET! 
+      );
+    
+      return res.json({
+        success: true,
+        token,
+        user: {
+          role: 'superadmin',
+          username: 'intern'
+        }
+      });
+    }
+
+
+    // Intern login
+    if (username === 'user' && password === 'user123') {
+      const token = jwt.sign(
+        { userId: 'user', role: 'user' },
+        process.env.JWT_SECRET!
+        
+      );
+
+      return res.json({
+        success: true,
+        token,
+        user: {
+          role: 'superadmin',
+          username: 'user'
+        }
+      });
+    }
+
+
+
     // Supplier login
     const supplier = await Manufacturer.findOne({
       company_name: { 

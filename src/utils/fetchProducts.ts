@@ -1,6 +1,5 @@
 import axios from 'axios';
-import Product from '../model/product.model';
-
+import Product, { IProduct } from '../model/product.model'; 
 const fetchAndStoreProducts = async (): Promise<void> => {
   try {
     const response = await axios.get(
@@ -64,7 +63,7 @@ const fetchAndStoreProducts = async (): Promise<void> => {
     }
 
     // ✅ Bulk update/insert
-    /*   await Product.bulkWrite(
+      await Product.bulkWrite(
       products.map((product: IProduct) => ({
         updateOne: {
           filter: { product_id: product.product_id },
@@ -72,7 +71,7 @@ const fetchAndStoreProducts = async (): Promise<void> => {
           upsert: true,
         },
       }))
-    ); */
+    ); 
 
     console.log('✅ Products stored successfully.');
   } catch (error) {
