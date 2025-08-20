@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "nodemon",
-    "test": "APP_ENV=test jest --watch --verbose --detectOpenHandles"
+    "test": "jest"
   },
   "keywords": [],
   "author": "",

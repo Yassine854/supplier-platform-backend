@@ -10,6 +10,15 @@ const escapeRegex = (text: string) => {
   return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 };
 
+const generateGuestToken = (username: string, role: string) => {
+  const payload = { username, role };
+  const secret = process.env.GUEST_TOKEN_JWT_SECRET || 'Kam2025@Secret';
+  const algorithm = (process.env.GUEST_TOKEN_JWT_ALGO || 'HS256') as jwt.Algorithm;
+  const expiresIn = parseInt(process.env.GUEST_TOKEN_JWT_EXP_SECONDS || '300', 10);
+
+  return jwt.sign(payload, secret, { algorithm, expiresIn });
+};
+
 router.post('/login', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { username, password } = req.body;
@@ -28,10 +37,12 @@ router.post('/login', async (req: Request, res: Response, next: NextFunction) =>
         process.env.JWT_SECRET!,
         { expiresIn: '1h' }
       );
+      const guestToken = generateGuestToken(username, 'Public');
 
       return res.json({
         success: true,
         token,
+        guestToken,
         user: {
           role: 'superadmin',
           username: 'admin'
@@ -100,6 +111,8 @@ router.post('/login', async (req: Request, res: Response, next: NextFunction) =>
       return res.json({
         success: true,
         token,
+        guestToken: generateGuestToken('admin', 'Public'),
+
         user: {
           role: 'supplier',
           manufacturerId: supplier.manufacturerId,
