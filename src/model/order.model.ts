@@ -31,7 +31,7 @@ const OrderItemSchema = new Schema<IOrderItem>({
   name: { type: String, required: true },
   qty_invoiced: { type: Number, required: true },
   row_total_incl_tax: { type: Number, required: true },
-  qty_refunded: { type: Number, required: true },
+  qty_refunded: { type: Number, required: true, default: 0, set: (v: number | null | undefined) => (v == null ? 0 : v) },
   amount_refunded: { type: Number, required: true },
 });
 
