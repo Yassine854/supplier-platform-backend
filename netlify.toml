@@ -1,0 +1,17 @@
+[build]
+  # No site build; functions are bundled by Netlify using esbuild
+  command = ""
+  publish = "."
+
+[build.environment]
+  NODE_VERSION = "18"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# Proxy /api/* to the api function
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200

@@ -22,11 +22,11 @@ const envSchema = z.object({
 const envVars = envSchema.safeParse(process.env);
 
 if (!envVars.success) {
-  console.error(
-    'Invalid or missing environment variables:',
-    envVars.error.format()
+  const formatted = envVars.error.format();
+  // In serverless environments, avoid process.exit which can terminate the container unexpectedly
+  throw new Error(
+    `Invalid or missing environment variables: ${JSON.stringify(formatted)}`
   );
-  process.exit(1);
 }
 
 export const getEnv = <T extends keyof typeof envVars.data>(
