@@ -1,9 +1,11 @@
 import express, { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import multer from 'multer';
 import Manufacturer from '../model/supplier.model';
 
 dotenv.config();
+const upload = multer();
 const router = express.Router();
 
 const escapeRegex = (text: string) => {
@@ -19,11 +21,20 @@ const generateGuestToken = (username: string, role: string) => {
   return jwt.sign(payload, secret, { algorithm, expiresIn });
 };
 
-router.post('/login', async (req: Request, res: Response, next: NextFunction) => {
+router.post('/login', upload.none(), async (req: Request, res: Response, next: NextFunction) => {
   try {
+    // Debug logging for request body issues
+    console.log('=== AUTH ROUTE DEBUG ===');
+    console.log('Content-Type:', req.headers['content-type']);
+    console.log('Raw body:', req.body);
+    console.log('Body keys:', Object.keys(req.body || {}));
+    console.log('Username:', req.body?.username);
+    console.log('Password:', req.body?.password);
+
     const { username, password } = req.body;
 
     if (!username || !password) {
+      console.log('Missing credentials - username:', !!username, 'password:', !!password);
       return res.status(400).json({ 
         success: false, 
         message: 'Username and password are required' 

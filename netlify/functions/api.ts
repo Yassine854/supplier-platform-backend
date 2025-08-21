@@ -30,6 +30,15 @@ export const handler = async (event: any, context: any) => {
   // Prevent Lambda from waiting for the Node.js event loop to be empty
   context.callbackWaitsForEmptyEventLoop = false;
 
+  // Debug logging for Netlify issues
+  console.log('=== NETLIFY FUNCTION DEBUG ===');
+  console.log('HTTP Method:', event.httpMethod);
+  console.log('Path:', event.path);
+  console.log('Headers:', JSON.stringify(event.headers, null, 2));
+  console.log('Body (raw):', event.body);
+  console.log('Is Base64 Encoded:', event.isBase64Encoded);
+  console.log('Query String Parameters:', event.queryStringParameters);
+
   // Ensure database is connected before handling the request
   await ensureDbConnection();
 
