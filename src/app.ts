@@ -18,8 +18,8 @@ import { authMiddleware } from './middlewares/auth.middlewares';
 
 const app = express();
 
+app.use(express.json({ type: ['application/json', 'application/*+json', 'text/plain'] }));
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 
 // Middleware
 app.use(cors({
@@ -35,6 +35,56 @@ app.use('/api/auth', authRoutes);
 
 app.get('/test', (_, res) => {
   res.json({ test: true });
+});
+
+// Health check endpoint
+app.get('/health', async (req, res) => {
+  try {
+    const health = {
+      status: 'OK',
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
+      environment: process.env.NODE_ENV || 'development',
+      version: '1.0.0',
+      database: {
+        status: 'unknown',
+        readyState: 'unknown'
+      }
+    };
+
+    // Check database connection if mongoose is available
+    try {
+      const mongoose = require('mongoose');
+      health.database.readyState = mongoose.connection.readyState;
+      health.database.status = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
+    } catch (error) {
+      health.database.status = 'error';
+    }
+
+    res.json(health);
+  } catch (error) {
+    res.status(500).json({
+      status: 'ERROR',
+      timestamp: new Date().toISOString(),
+      error: 'Health check failed'
+    });
+  }
+});
+
+// Welcome endpoint
+app.get('/welcome', (req, res) => {
+  res.json({
+    message: 'Welcome to OMS Express Server API',
+    version: '1.0.0',
+    timestamp: new Date().toISOString(),
+    endpoints: {
+      health: '/health',
+      auth: '/api/auth/login',
+      test: '/test',
+      testPost: '/test-post'
+    },
+    documentation: 'API is running successfully on Netlify Functions'
+  });
 });
 app.use('/api/ad', adRoutes);
 app.use('/api/screen', ScreenRoutes);
