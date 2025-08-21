@@ -18,7 +18,12 @@ async function ensureDbConnection() {
 
 const expressHandler = serverless(app, {
   // Ensure Netlify base64 bodies are decoded for multipart/form-data uploads
-  binary: ['multipart/form-data', 'application/octet-stream', 'image/*']
+  binary: (headers: any) => {
+    const contentType = headers['content-type'] || '';
+    return contentType.startsWith('multipart/form-data') || 
+           contentType.startsWith('application/octet-stream') ||
+           contentType.startsWith('image/');
+  }
 });
 
 export const handler = async (event: any, context: any) => {
