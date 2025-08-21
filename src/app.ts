@@ -18,8 +18,8 @@ import { authMiddleware } from './middlewares/auth.middlewares';
 
 const app = express();
 
+app.use(express.json({ type: ['application/json', 'application/*+json', 'text/plain'] }));
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 
 // Middleware
 app.use(cors({

@@ -1,9 +1,11 @@
 import express, { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import multer from 'multer';
 import Manufacturer from '../model/supplier.model';
 
 dotenv.config();
+const upload = multer();
 const router = express.Router();
 
 const escapeRegex = (text: string) => {
@@ -19,7 +21,7 @@ const generateGuestToken = (username: string, role: string) => {
   return jwt.sign(payload, secret, { algorithm, expiresIn });
 };
 
-router.post('/login', async (req: Request, res: Response, next: NextFunction) => {
+router.post('/login', upload.none(), async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { username, password } = req.body;
 
