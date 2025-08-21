@@ -16,7 +16,10 @@ async function ensureDbConnection() {
   await connectPromise;
 }
 
-const expressHandler = serverless(app);
+const expressHandler = serverless(app, {
+  // Ensure Netlify base64 bodies are decoded for multipart/form-data uploads
+  binary: ['multipart/form-data', 'application/octet-stream', 'image/*']
+});
 
 export const handler = async (event: any, context: any) => {
   // Prevent Lambda from waiting for the Node.js event loop to be empty
