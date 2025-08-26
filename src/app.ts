@@ -23,10 +23,11 @@ app.use(express.urlencoded({ extended: true }));
 
 // Middleware
 app.use(cors({
-  origin: '*',
+  origin: ['https://supplier-platform-frontend.netlify.app', 'http://localhost:3000'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
-  credentials: true
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'x-api-key'],
+  credentials: true,
+  maxAge: 86400 // Cache preflight request for 24 hours
 }));
 
 
