@@ -4,7 +4,7 @@ import { getAllOrders, getOrder } from '../handlers/order.handlers';
 
 const router = Router();
 
-router.get('/', authMiddleware, getAllOrders);
+router.get('/', getAllOrders);
 router.get('/:id', authMiddleware, getOrder);
 
 export default router;

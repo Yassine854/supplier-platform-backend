@@ -36,6 +36,7 @@ const OrderItemSchema = new Schema<IOrderItem>({
 });
 
 const OrderSchema = new Schema<IOrder>({
+  
   entity_id: { type: Number, required: true, unique: true },
   state: { type: String, required: true },
   status: { type: String, required: true },
@@ -47,5 +48,15 @@ const OrderSchema = new Schema<IOrder>({
   store_id: { type: Number, required: true },
   items: { type: [OrderItemSchema], required: true },
 }, { versionKey: false });
+
+// Add indexes for better query performance
+OrderSchema.index({ _id: 1 }); 
+OrderSchema.index({ entity_id: 1 });
+OrderSchema.index({ status: 1 });
+OrderSchema.index({ customer_id: 1 });
+OrderSchema.index({ created_at: -1 });
+OrderSchema.index({ updated_at: -1 });
+OrderSchema.index({ status: 1, created_at: -1 });
+OrderSchema.index({ customer_id: 1, created_at: -1 });
 
 export default mongoose.model<IOrder>('Order', OrderSchema, 'orders');
