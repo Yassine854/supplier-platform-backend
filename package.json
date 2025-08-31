@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "clean": "rm -rf dist && rm -f tsconfig.tsbuildinfo",
     "start": "node dist/index.js",
-    "build": "tsc",
+    "build": "npm run clean && NODE_OPTIONS='--max-old-space-size=4096' tsc",
     "dev": "nodemon",
     "test": "jest"
   },
